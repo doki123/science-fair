@@ -94,7 +94,8 @@ def home():
                 pic_label.pop(request.form['delete_one'])
                 label_list_full.remove(label)
                 if (label not in label_list_full) and (label in label_list):
-                    label_list.remove(label)
+                    # meaning if all the images in a certain classification have been deleted
+                    label_list.remove(label)  # when label is removed from label_list, the recipes are removed too
             return redirect('/')
 
         elif 'delete_all' in request.form:
@@ -107,7 +108,7 @@ def home():
 
         elif 'create_model' in request.form:
             apple_list = os.listdir('static/images')
-            clf = load('apple_model.joblib')
+            clf = load('apple_model.joblib')  # apple_model is a pre-trained model created from NN_Model
             for img_predict in apple_list:
                 img_array = cv2.imread('static/images/' + img_predict)
                 flat_img_array = cv2.resize(img_array, (50, 50))
@@ -115,7 +116,7 @@ def home():
                 predict_apple = clf.predict([flat_img_array])
                 predict_apple = predict_apple[0]  # brings prediction out of array
                 predict_apple = apple_variety_translate[predict_apple]  # turns classification into actual variety
-                pic_label.__setitem__(img_predict, predict_apple)
+                pic_label.__setitem__(img_predict, predict_apple)  # adds the (image name, classification)
                 label_list_full.append(predict_apple)
                 if predict_apple not in label_list:
                     label_list.append(predict_apple)
@@ -124,10 +125,10 @@ def home():
         else:
             files = request.files.getlist('filename')  # predict_file is the name
             for file in files:
-                if file not in os.listdir('static/images/'):
-                    if file.filename != '':
-                        file.save(os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(file.filename)))  # saves file
-            # into proper path
+                if file not in os.listdir('static/images/'):  # protects against adding multiple of same image
+                    if file.filename != '':  # protects against error where you press submit without selecting an image
+                        file.save(os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(file.filename)))
+                        # saves file into proper path
             return redirect('/')
 
 
