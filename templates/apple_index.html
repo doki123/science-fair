@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Apple Image Recognition</title>
+    <!--<style>
+        #send_image { width: 500px;
+                      height: 700px;
+                      float: left;}
+        .apple_taken { width: 70px;
+                       height: 70px; }
+        .apple_div { width: 120px;
+                     height: 120px;
+                     float: left; }
+        .classification { width: 100px; }
+        #recipe_uses { width: 300px;
+                       height: 700px;
+                       float: left;}
+    </style> -->
+    <style>
+        body { font-family: monospace;
+               font-size: 15px; }
+        #send_image { width: 45%;
+                      float: left;
+                      padding: 5px;
+                      position: relative; }
+        .apple_taken { width: 70px;
+                       height: 70px; }
+        .apple_div { width: 120px;
+                     height: 130px;
+                     float: left; }
+        .classification { width: 100px; }
+        #recipe_uses { /* width: 55%; */
+                       float: left;}
+        .recipe_specific { float: left;
+                           width: 300px;
+                           border-style: solid;
+                           border-width: 1px;
+                           padding: 5px;
+                           margin: 5px; }
+        a { color: #F63476; }
+        a:hover { color: purple; }
+        h3 { text-shadow: 0.5px 0.5px red; }
+    </style>
+</head>
+<body>
+    <div id="send_image">
+        <form action="/" method="POST" enctype="multipart/form-data"> <!-- allows files to be sent through POST -->
+            <input multiple type="file" id="predict_file" name="filename">
+            <input type="submit">
+        </form>
+        <p></p>
+        {% if apple_pic == [] %}
+            <p>Please submit at least one image of an apple</p>
+        {% endif %}
+        {% if apple_pic != [] %}
+            <form action="/" method="POST">
+                <button type="submit" value="create_model" name="create_model">Create Model</button>
+            </form>
+            <form action="/" method="POST">
+                <button type="submit" value="delete_all" name="delete_all">Delete All</button>
+            </form>
+        {% endif %}
+        {% for fruit in apple_pic %}
+            <form action="/" method="POST">
+                <div class="apple_div">
+                    <img class="apple_taken" src="../static/images/{{fruit}}">
+                    <button type="submit" value="{{fruit}}" name="delete_one">X</button>
+                    <p class="classification">{{pic_label[fruit]}}</p>
+                </div>
+            </form>
+        {% endfor %}
+    </div>
+    <div id="recipe_display">
+        {% for label in label_list %}
+            {% if label != 'Honey Crisp' %}
+                <div class="recipe_specific">
+                    <h3>{{label}}</h3>
+                    {% for recipe_major in apple_variety_uses[label] %}
+                    <p style="text-transform: capitalize; font-size: 17px;"><b>{{recipe_major}}</b></p>
+                        {% for individual in apple_variety_uses[label][recipe_major] %}
+                            <a href="{{individual[1]}}" target="_blank">{{individual[0]}}</a>,
+                        {% endfor %}
+                        <!--{% for recipe_minor in recipe_major %}
+                        {% endfor %}-->
+                    {% endfor %}
+                </div>
+            {% endif %}
+            {% if label == 'Honey Crisp' %}
+                <div class="recipe_specific">
+                    <h3>Honey Crisp</h3>
+                    {% for honey_sub in honey_crisp %}
+                        <p style="text-transform: capitalize;"><b>{{honey_sub}}</b></p>
+                        {% for honey_individual in honey_crisp[honey_sub] %}
+                            <a href="{{honey_individual[1]}}" target="_blank">{{honey_individual[0]}}</a>,
+                        {% endfor %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+</body>
+</html>
