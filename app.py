@@ -132,7 +132,7 @@ def home():
             return redirect('/')
 
 
-app.run(debug=True)
+app.run()
 
 # explanation for joblib --> created a model in NN_Model and saved it via 'apple_model.joblib'
 # could load pre-trained model immediately --> saves a lot of time bc don't have to re-train each time
