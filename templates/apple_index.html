@@ -7,7 +7,8 @@
         body { font-family: monospace;
                font-size: 15px;
                background: #FFFFFD; }
-        #send_image { width: 45%;
+        #header { text-align: center; }
+        #send_image { width: 300px;
                       float: left;
                       padding: 5px;
                       position: relative; }
@@ -31,6 +32,10 @@
     </style>
 </head>
 <body>
+    <div id="header">
+        <h1>Classify an Apple</h1>
+        <p>Please delete all selections before closing your tab</p>
+    </div>
     <div id="send_image">
         <form action="/" method="POST" enctype="multipart/form-data"> <!-- allows files to be sent through POST -->
             <input multiple type="file" id="predict_file" name="filename">
@@ -38,7 +43,7 @@
         </form>
         <p></p>
         {% if apple_pic == [] %}
-            <p>Please submit at least one image of an apple</p>
+            <p>Please submit at least one image</p>
         {% endif %}
         {% if apple_pic != [] %}
             <form action="/" method="POST">
