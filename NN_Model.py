@@ -11,9 +11,6 @@ import os
 import cv2
 
 
-# def apple_model(send_pics):
-#     pic_list = []
-#     pic_label = {}
 test_folder = 'data/fruits-360/Test/'
 train_folder = 'data/fruits-360/Training/'
 
