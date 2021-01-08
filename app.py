@@ -137,7 +137,7 @@ def home():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host="0.0.0.0", port=80)
 
 # explanation for joblib --> created a model in NN_Model and saved it via 'apple_model.joblib'
 # could load pre-trained model immediately --> saves a lot of time bc don't have to re-train each time
