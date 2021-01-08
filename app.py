@@ -72,7 +72,7 @@ red_gold = {
               ['Applesauce', 'https://www.culinaryhill.com/applesauce-recipe/']],
     'beverages': [['Spiced Red Wine Apples',
                    'https://cookingontheweekends.com/spiced-red-wine-crimson-gold-apples-with-vanilla-mascarpone/']]}
-label_list = []
+# label_list = []
 label_list_full = []
 apple_variety_uses = {'Braeburn': braeburn, 'Golden Delicious': golden_delicious, 'Granny Smith': granny_smith,
                       'Pink Lady': pink_lady, 'Red Delicious': red_delicious, 'Honey Crisp': honey_crisp,
@@ -84,7 +84,8 @@ def home():
     if request.method == 'GET':
         apple_pic = os.listdir('static/images')
         return render_template('apple_index.html', apple_pic=apple_pic, pic_label=pic_label,
-                               apple_variety_uses=apple_variety_uses, label_list=label_list, honey_crisp=honey_crisp)
+                               apple_variety_uses=apple_variety_uses, label_list=set(label_list_full)
+                               , honey_crisp=honey_crisp)
 
     if request.method == 'POST':
         if 'delete_one' in request.form:
@@ -93,9 +94,9 @@ def home():
                 label = pic_label[request.form['delete_one']]
                 pic_label.pop(request.form['delete_one'])
                 label_list_full.remove(label)
-                if (label not in label_list_full) and (label in label_list):
-                    # meaning if all the images in a certain classification have been deleted
-                    label_list.remove(label)  # when label is removed from label_list, the recipes are removed too
+                # if (label not in label_list_full) and (label in label_list):
+                #     # meaning if all the images in a certain classification have been deleted
+                #     label_list.remove(label)  # when label is removed from label_list, the recipes are removed too
             return redirect('/')
 
         elif 'delete_all' in request.form:
@@ -103,7 +104,7 @@ def home():
                 os.remove('static/images/' + del_file)
             pic_label.clear()
             label_list_full.clear()
-            label_list.clear()
+            # label_list.clear()
             return redirect('/')
 
         elif 'create_model' in request.form:
@@ -120,9 +121,9 @@ def home():
                 print(predict_apple)
                 pic_label.__setitem__(img_predict, predict_apple)  # adds the (image name, classification)
                 label_list_full.append(predict_apple)
-                if predict_apple not in label_list:
-                    label_list.append(predict_apple)
-                    print(label_list)
+                # if predict_apple not in label_list:
+                #     label_list.append(predict_apple)
+                #     print(label_list)
             return redirect('/')
 
         else:
