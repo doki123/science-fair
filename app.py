@@ -4,7 +4,7 @@ import os
 import cv2
 from joblib import load
 
-app = Flask('Shop')
+app = Flask('Apple Class')
 app.config['UPLOAD_FOLDER'] = 'static/images'
 pic_label = {}
 apple_variety_translate = {'Apple Braeburn': 'Braeburn', 'Apple Golden 1': 'Golden Delicious',
