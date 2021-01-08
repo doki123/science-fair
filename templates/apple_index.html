@@ -65,29 +65,15 @@
     </div>
     <div id="recipe_display">
         {% for label in label_list %}
-            {% if label != 'Honey Crisp' %}
-                <div class="recipe_specific">
-                    <h3>{{label}}</h3>
-                    {% for recipe_major in apple_variety_uses[label] %}
-                    <p style="text-transform: capitalize; font-size: 17px;"><b>{{recipe_major}}</b></p>
+            <div class="recipe_specific">
+                <h3>{{label}}</h3>
+                {% for recipe_major in apple_variety_uses[label] %}
+                        <p style="text-transform: capitalize; font-size: 17px;"><b>{{recipe_major}}</b></p>
                         {% for individual in apple_variety_uses[label][recipe_major] %}
                             <a href="{{individual[1]}}" target="_blank">{{individual[0]}}</a>,
                         {% endfor %}
-                    {% endfor %}
-                </div>
-            {% endif %}
-            {% if label == 'Honey Crisp' %} <!-- Honey Crisp recipes never showed up, so this makes sure if the
-                                                 classification is honey crisp the recipe will appear -->
-                <div class="recipe_specific">
-                    <h3>Honey Crisp</h3>
-                    {% for honey_sub in honey_crisp %}
-                        <p style="text-transform: capitalize;"><b>{{honey_sub}}</b></p>
-                        {% for honey_individual in honey_crisp[honey_sub] %}
-                            <a href="{{honey_individual[1]}}" target="_blank">{{honey_individual[0]}}</a>,
-                        {% endfor %}
-                    {% endfor %}
-                </div>
-            {% endif %}
+                {% endfor %}
+            </div>
         {% endfor %}
     </div>
 </body>

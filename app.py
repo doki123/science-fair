@@ -75,7 +75,7 @@ red_gold = {
 label_list = []
 label_list_full = []
 apple_variety_uses = {'Braeburn': braeburn, 'Golden Delicious': golden_delicious, 'Granny Smith': granny_smith,
-                      'Pink Lady': pink_lady, 'Red Delicious': red_delicious, 'Honey crisp': honey_crisp,
+                      'Pink Lady': pink_lady, 'Red Delicious': red_delicious, 'Honey Crisp': honey_crisp,
                       'Red Gold': red_gold}
 
 
@@ -115,11 +115,14 @@ def home():
                 flat_img_array = flat_img_array.flatten()
                 predict_apple = clf.predict([flat_img_array])
                 predict_apple = predict_apple[0]  # brings prediction out of array
+                print(predict_apple)
                 predict_apple = apple_variety_translate[predict_apple]  # turns classification into actual variety
+                print(predict_apple)
                 pic_label.__setitem__(img_predict, predict_apple)  # adds the (image name, classification)
                 label_list_full.append(predict_apple)
                 if predict_apple not in label_list:
                     label_list.append(predict_apple)
+                    print(label_list)
             return redirect('/')
 
         else:
