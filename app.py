@@ -89,10 +89,13 @@ def home():
 
     if request.method == 'POST':
         if 'delete_one' in request.form:
-            os.remove('static/images/' + request.form['delete_one'])
-            if request.form['delete_one'] in pic_label:
-                label = pic_label[request.form['delete_one']]
-                pic_label.pop(request.form['delete_one'])
+            sanitized_file = secure_filename(request.form['delete_one'])
+            # os.remove('static/images/' + request.form['delete_one'])
+            os.remove(os.path.join(app.config['UPLOAD_FOLDER'], sanitized_file))
+            if sanitized_file in pic_label:
+                label = pic_label[sanitized_file]
+                print(label)
+                pic_label.pop(sanitized_file)
                 label_list_full.remove(label)
                 # if (label not in label_list_full) and (label in label_list):
                 #     # meaning if all the images in a certain classification have been deleted
